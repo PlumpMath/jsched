@@ -1,19 +1,26 @@
 package jsched;
-import java.util.ArrayDeque;
+
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class MailBox<T> {
-	private final Queue<T> queue = new ArrayDeque<T>();
+	private final Queue<T> queue = new LinkedList<T>();
 
 	public void addMessage(T msg) {
-		queue.add(msg);
+		try {
+			queue.add(msg);
+		} catch (IllegalStateException e) {
+			// ignore
+			System.out.println("warning: ignored message in mailbox " + this);
+		}
 	}
 
-	public T tryGetNextMessage() {
-		try {
-			return queue.remove();
-		} catch (Exception e) {
+	public T getMessage() {
+		if (queue.isEmpty()) {
 			return null;
+		} else {
+			return queue.remove();
 		}
+
 	}
 }

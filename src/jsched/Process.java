@@ -1,4 +1,5 @@
 package jsched;
+
 public abstract class Process<T> extends Fiber {
 	private final MailBox<T> mailBox;
 
@@ -10,19 +11,19 @@ public abstract class Process<T> extends Fiber {
 		mailBox.addMessage(msg);
 	}
 
-	protected Continuation receive(final Func<T, Continuation> continuation) {
+	protected Continuation receive(final Body<T> body) {
 		final T message;
-		message = mailBox.tryGetNextMessage();
+		message = mailBox.getMessage();
 		if (message != null) {
 			return new Continuation() {
-				public Continuation run() {
-					return continuation.exec(message);
+				public Continuation call() {
+					return body.exec(message);
 				}
 			};
 		} else {
 			return new Continuation() {
-				public Continuation run() {
-					return receive(continuation);
+				public Continuation call() {
+					return receive(body);
 				}
 			};
 		}

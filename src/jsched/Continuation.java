@@ -1,4 +1,5 @@
 package jsched;
+
 public interface Continuation {
-	public Continuation run();
+	public Continuation call();
 }
