@@ -1,18 +1,23 @@
 package jsched;
 
-public abstract class Fiber {
-	public Continuation continuation;
+public class Fiber {
+	private Continuation continuation = null;
 
-	public void start() {
-		continuation = do_run();
+	public Fiber() {
+	}
+
+	public void start(Continuation init) {
+		continuation = init;
 	}
 
 	public boolean run() {
-		continuation = continuation.call();
+		// System.out.println("--- run " + this);
+		if (continuation != null) {
+			continuation = continuation.call();
+		}
+		// System.out.println("--- next: " + continuation);
 		return continuation != null;
 	}
-
-	protected abstract Continuation do_run();
 
 	public void stop() {
 		continuation = null;

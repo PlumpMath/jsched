@@ -1,33 +1,27 @@
-import jsched.Body;
-import jsched.Continuation;
-import jsched.Process;
+import jsched.Actor;
 
-class PingPong extends Process<String> {
-	public Process<String> friend;
+class PingPong extends Actor<String> {
+	public PingPong friend;
 	private final String name;
 	private int i = 0;
+	private final long time;
 
-	public PingPong(String name) {
+	public PingPong(String name, long time) {
 		this.name = name;
+		this.time = time;
 	}
 
 	@Override
-	public Continuation do_run() {
-		i++;
-		System.out.println(name + " -> " + i);
-		friend.send(name + "_" + i);
+	public void init() {
 
-		Body<String> body = new Body<String>() {
-			@Override
-			public Continuation exec(String n) {
-				System.out.println(name + "_" + i + " <- " + n + " ");
-				if (i > 20) {
-					return null;
-				}
-				return do_run();
-			}
-		};
-
-		return receive(body);
 	}
+
+	@Override
+	public void handle(String n) {
+		i++;
+		System.out.println("handle::: " + n + " " + i);
+		friend.send(name + "-" + i);
+		System.out.println(name + "_" + i + " <- " + n + " ");
+	}
+
 }

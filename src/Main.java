@@ -7,12 +7,13 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		Scheduler scheduler = new Scheduler();
-		PingPong ping = new PingPong("ping");
-		PingPong pong = new PingPong("pong");
+		PingPong ping = new PingPong("ping", 12);
+		PingPong pong = new PingPong("pong", 17);
 		ping.friend = pong;
 		pong.friend = ping;
 
-		scheduler.spawn(ping, pong);
+		scheduler.spawnActor(ping, pong);
+		ping.send("hello");
 		scheduler.schedule();
 	}
 
