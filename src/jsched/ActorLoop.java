@@ -37,6 +37,11 @@ public class ActorLoop<Msg> extends Fiber {
 		return my_loop;
 	}
 
+	private Continuation receive(long timeout, Continuation next,
+			Continuation after) {
+		return next;
+	}
+
 	public void start() {
 		actor.init();
 		start(my_loop);

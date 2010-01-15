@@ -18,8 +18,8 @@ class PingPong extends Actor<String> {
 
 	@Override
 	public void handle(String n) {
-		if ((System.currentTimeMillis() / 100) % time < 1) {
-			i++;
+		i++;
+		if (i % time < 1) {
 			friend.send(name + "-" + i);
 		}
 		if (n != null) {
