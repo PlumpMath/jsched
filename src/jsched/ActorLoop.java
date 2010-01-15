@@ -17,29 +17,28 @@ public class ActorLoop<Msg> extends Fiber {
 		mailBox.addMessage(msg);
 	}
 
+	Continuation my_loop = new Continuation() {
+		@Override
+		public Continuation call() {
+			return loop();
+		}
+	};
+
 	private Continuation loop() {
 		final Msg message;
-		System.out.println("" + this + " loop");
+		// System.out.println("" + this + " loop");
 		message = mailBox.getMessage();
-		System.out.println("get msg = " + message);
 		if (message != null) {
-			actor.handle(message);
+			// System.out.println("get msg = " + message);
 		}
-		return new Continuation() {
-			@Override
-			public Continuation call() {
-				return loop();
-			}
-		};
+
+		actor.handle(message);
+
+		return my_loop;
 	}
 
 	public void start() {
 		actor.init();
-		start(new Continuation() {
-			@Override
-			public Continuation call() {
-				return loop();
-			}
-		});
+		start(my_loop);
 	}
 }

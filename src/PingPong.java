@@ -18,10 +18,13 @@ class PingPong extends Actor<String> {
 
 	@Override
 	public void handle(String n) {
-		i++;
-		System.out.println("handle::: " + n + " " + i);
-		friend.send(name + "-" + i);
-		System.out.println(name + "_" + i + " <- " + n + " ");
+		if ((System.currentTimeMillis() / 100) % time < 1) {
+			i++;
+			friend.send(name + "-" + i);
+		}
+		if (n != null) {
+			System.out.println(name + "_" + i + " <- " + n + " ");
+		}
 	}
 
 }
