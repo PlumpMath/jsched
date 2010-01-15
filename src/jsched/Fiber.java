@@ -1,3 +1,4 @@
+package jsched;
 public abstract class Fiber {
 	public Continuation continuation;
 

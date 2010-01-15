@@ -1,3 +1,4 @@
+package jsched;
 public abstract class Process<T> extends Fiber {
 	private final MailBox<T> mailBox;
 

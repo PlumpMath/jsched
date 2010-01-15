@@ -1,3 +1,9 @@
+
+
+import jsched.Continuation;
+import jsched.Func;
+import jsched.Process;
+
 class PingPong extends Process<String> {
 	public Process<String> friend;
 	private final String name;
